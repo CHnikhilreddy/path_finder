@@ -2,7 +2,6 @@ import {useState,useRef} from 'react'
 import {Button, Container, Slider, Typography} from '@material-ui/core'
 
 const direction = [[1,0],[-1,0],[0,1],[0,-1]]
-// const numCols = 60
 
 function App() {
   const running = useRef()
@@ -16,7 +15,7 @@ function App() {
   const [numCols,setNumCols] = useState(60)
   const numColsRefs = useRef()
   numColsRefs.current = numCols
-  const [answer,setAnswer] = useState(true)
+  const [answer,setAnswer] = useState("not_done")
   const [grid,setGrid] = useState(()=>getrandom())
   function getrandom(){
     const rows = []
@@ -62,10 +61,14 @@ function App() {
 
   const startBFS = (arr) =>{
     if(arr.length===0){
-      setAnswer(false)
+      setAnswer((s)=>{
+        if(s==='ans_found'){
+          return s
+        }
+        return "not_found"
+      })
       return
     }
-    var answer = false
     var new_arr = []
     setGrid(g=>{
       var new_grid = JSON.parse(JSON.stringify(g))
@@ -83,15 +86,12 @@ function App() {
               else if(new_grid[x][y] === 'target'){
                 new_arr = []
                 let path = JSON.parse(JSON.stringify(arr[i][2]))
-                path.push([x,y])  
-                answer = true
+                path.push([x,y])
+                setAnswer((s)=>{return 'ans_found'})
                 return getpath(new_grid,path)
               }
             }
           }
-        }
-        if(answer === true){
-          return
         }
         return new_grid
       }
@@ -139,7 +139,7 @@ function App() {
           }}  
         />
         
-        {answer===false?<Typography align='center' variant='h4'>Answer not found</Typography>
+        {answer==="not_found"?<Typography align='center' variant='h4'>Answer not found</Typography>
         :<></>}
         
       </Container>
