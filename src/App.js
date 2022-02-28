@@ -8,6 +8,7 @@ function App() {
   const running = useRef()
   running.current = false
   const [starting_position,setStarting_position] = useState([18,28])
+  const [target_position,setTarget_position] = useState([2,2])
   const [change_position,setChange_position] = useState('wall')
   const [grid,setGrid] = useState(()=>{
     const rows = []
@@ -15,16 +16,36 @@ function App() {
       rows.push(Array.from(Array(numCols),()=>Math.random()<0.3?'wall':'free_space'))
     }
     rows[starting_position[0]][starting_position[1]] = 'start_position'
-    rows[2][2] = 'target'
+    rows[target_position[0]][target_position[1]] = 'target'
     return rows 
   })
+  function getrandom(){
+    const rows = []
+    for(let i = 0;i<numRows;i++){
+      rows.push(Array.from(Array(numCols),()=>Math.random()<0.3?'wall':'free_space'))
+    }
+    rows[starting_position[0]][starting_position[1]] = 'start_position'
+    rows[target_position[0]][target_position[1]] = 'target'
+    return rows
+  }
 
   const changesatefunctin = (i,j,str)=>{
     var new_arr = JSON.parse(JSON.stringify(grid))
+    if(grid[i][j]==='target'){
+      return
+    }
+    if(grid[i][j]==='start_position'){
+      return
+    }
     if(str === 'start_position'){
       new_arr[i][j] = new_arr[i][j]==='target'?'target':str
       new_arr[starting_position[0]][starting_position[1]] = 'free_space'
       setStarting_position([i,j])
+    }
+    else if(str === 'target'){
+      new_arr[i][j] = new_arr[i][j]==='start_position'?'start_position':str
+      new_arr[target_position[0]][target_position[1]] = 'free_space'
+      setTarget_position([i,j])
     }
     else{
       new_arr[i][j] = new_arr[i][j]==='free_space'?str:'free_space'
@@ -61,7 +82,7 @@ function App() {
               else if(new_grid[x][y] === 'target'){
                 new_arr = []
                 let path = JSON.parse(JSON.stringify(arr[i][2]))
-                path.push([x,y])
+                path.push([x,y])  
                 answer = true
                 return getpath(new_grid,path)
               }
@@ -81,6 +102,9 @@ function App() {
     <div>
       <button onClick={()=>{startBFS([[starting_position[0],starting_position[1],[[starting_position[0],starting_position[1]]]]])}}>Start</button>
       <button onClick={()=>{setChange_position('start_position')}}>change the start position</button>
+      <button onClick={()=>{setChange_position('target')}}>change the target position</button>
+      <button onClick={()=>{setChange_position('wall')}}>add or remove walls</button>
+      <button onClick={()=>{setGrid(getrandom())}}>Refresh</button>
       <div style={{
         display:"grid",
         gridTemplateColumns:`repeat(${numCols},20px)`,
