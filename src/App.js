@@ -1,5 +1,5 @@
 import {useState,useRef} from 'react'
-import {Button, Container, Slider} from '@material-ui/core'
+import {Button, Container, Slider, Typography} from '@material-ui/core'
 
 const direction = [[1,0],[-1,0],[0,1],[0,-1]]
 // const numCols = 60
@@ -16,6 +16,7 @@ function App() {
   const [numCols,setNumCols] = useState(60)
   const numColsRefs = useRef()
   numColsRefs.current = numCols
+  const [answer,setAnswer] = useState(true)
   const [grid,setGrid] = useState(()=>getrandom())
   function getrandom(){
     const rows = []
@@ -24,6 +25,7 @@ function App() {
     }
     rows[starting_position[0]][starting_position[1]] = 'start_position'
     rows[target_position[0]][target_position[1]] = 'target'
+    setAnswer(true)
     return rows
   }
 
@@ -60,6 +62,7 @@ function App() {
 
   const startBFS = (arr) =>{
     if(arr.length===0){
+      setAnswer(false)
       return
     }
     var answer = false
@@ -88,7 +91,6 @@ function App() {
           }
         }
         if(answer === true){
-          console.log("answer found")
           return
         }
         return new_grid
@@ -136,6 +138,10 @@ function App() {
             setGrid(getrandom())
           }}  
         />
+        
+        {answer===false?<Typography align='center' variant='h4'>Answer not found</Typography>
+        :<></>}
+        
       </Container>
       <Container>
         <div style={{
