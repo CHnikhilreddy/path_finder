@@ -1,28 +1,26 @@
 import {useState,useRef} from 'react'
+import {Button, Container, Slider} from '@material-ui/core'
 
 const direction = [[1,0],[-1,0],[0,1],[0,-1]]
-const numRows = 20
-const numCols = 30
+// const numCols = 60
 
 function App() {
   const running = useRef()
   running.current = false
-  const [starting_position,setStarting_position] = useState([18,28])
+  const [starting_position,setStarting_position] = useState([8,28])
   const [target_position,setTarget_position] = useState([2,2])
   const [change_position,setChange_position] = useState('wall')
-  const [grid,setGrid] = useState(()=>{
-    const rows = []
-    for(let i = 0;i<numRows;i++){
-      rows.push(Array.from(Array(numCols),()=>Math.random()<0.3?'wall':'free_space'))
-    }
-    rows[starting_position[0]][starting_position[1]] = 'start_position'
-    rows[target_position[0]][target_position[1]] = 'target'
-    return rows 
-  })
+  const [numRows,setNumRows] = useState(30)
+  const numRowsRefs = useRef()
+  numRowsRefs.current = numRows
+  const [numCols,setNumCols] = useState(60)
+  const numColsRefs = useRef()
+  numColsRefs.current = numCols
+  const [grid,setGrid] = useState(()=>getrandom())
   function getrandom(){
     const rows = []
-    for(let i = 0;i<numRows;i++){
-      rows.push(Array.from(Array(numCols),()=>Math.random()<0.3?'wall':'free_space'))
+    for(let i = 0;i<numRowsRefs.current;i++){
+      rows.push(Array.from(Array(numColsRefs.current),()=>Math.random()<0.3?'wall':'free_space'))
     }
     rows[starting_position[0]][starting_position[1]] = 'start_position'
     rows[target_position[0]][target_position[1]] = 'target'
@@ -100,16 +98,51 @@ function App() {
   }
   return (
     <div>
-      <button onClick={()=>{startBFS([[starting_position[0],starting_position[1],[[starting_position[0],starting_position[1]]]]])}}>Start</button>
-      <button onClick={()=>{setChange_position('start_position')}}>change the start position</button>
-      <button onClick={()=>{setChange_position('target')}}>change the target position</button>
-      <button onClick={()=>{setChange_position('wall')}}>add or remove walls</button>
-      <button onClick={()=>{setGrid(getrandom())}}>Refresh</button>
-      <div style={{
-        display:"grid",
-        gridTemplateColumns:`repeat(${numCols},20px)`,
-        gridTemplateRows:`repeat(${numRows},20px)`}}>
-      {grid.map((row,i)=> (
+      <Container maxWidth='md'>
+        <Button variant='contained' color='primary'
+          onClick={()=>{startBFS([[starting_position[0],starting_position[1],[[starting_position[0],starting_position[1]]]]])}}>Start</Button>
+        <Button variant='contained' color='primary'
+          onClick={()=>{setChange_position('start_position')}}>change the start position</Button>
+        <Button variant='contained' color='primary' onClick={()=>{setChange_position('target')}}>change the target position</Button>
+        <Button variant='contained' color='primary' onClick={()=>{setChange_position('wall')}}>add or remove walls</Button>
+        <Button variant='contained' color='primary' onClick={()=>{setGrid(getrandom())}}>Refresh</Button>
+        <Slider
+          defaultValue={30}
+          getAriaValueText={(v)=>v}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          step={2}
+          marks
+          min={10}
+          max={30}
+          onChangeCommitted={(e,value)=>{
+            setNumRows(value)
+            numRowsRefs.current = value
+            setGrid(getrandom())
+          }}  
+        />
+        <Slider
+          defaultValue={60}
+          getAriaValueText={(v)=>v}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          step={3}
+          marks
+          min={30}
+          max={60}
+          onChangeCommitted={(e,value)=>{
+            setNumCols(value)
+            numColsRefs.current = value
+            setGrid(getrandom())
+          }}  
+        />
+      </Container>
+      <Container>
+        <div style={{
+          display:"grid",
+          gridTemplateColumns:`repeat(${numCols},20px)`,
+          gridTemplateRows:`repeat(${numRows},20px)`}}>
+        {grid.map((row,i)=> (
           row.map((col,j)=> (
             <div
             key={`${i}-${j}`}
@@ -122,6 +155,7 @@ function App() {
               </div>)
       )))}
       </div>
+      </Container>
     </div>
   );
 }
