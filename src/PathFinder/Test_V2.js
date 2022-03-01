@@ -1,14 +1,13 @@
 import {useState,useRef} from 'react'
 import {Button, Container, Slider, Typography} from '@material-ui/core'
-import {getRandomHelper, getRandom_v2, getupdatedgrid_v2} from './helperfunctions'
+import { getRandom_v2, getupdatedgrid_v2} from './helperfunctions'
 
-var path_final = null
 
 function Test_V2() {
   const running = useRef()
   running.current = false
   const [starting_position,setStarting_position] = useState([8,28])
-  const [target_position,setTarget_position] = useState([[9,7],[2,2]])
+  const target_position = [[9,7],[2,2]]
   const [change_position,setChange_position] = useState('wall')
   const [numRows,setNumRows] = useState(30)
   const numRowsRefs = useRef()
@@ -16,7 +15,7 @@ function Test_V2() {
   const [numCols,setNumCols] = useState(60)
   const numColsRefs = useRef()
   numColsRefs.current = numCols
-  const [answer,setAnswer] = useState("not_done")
+  const answer= "not_done"
   const [grid,setGrid] = useState(()=>getrandom())
 
   function getrandom(){

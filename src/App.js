@@ -1,4 +1,4 @@
-import { Button,Container,Switch } from '@material-ui/core'
+import { Container,Switch } from '@material-ui/core'
 import { useState } from 'react'
 import Algo from './PathFinder/Algo'
 import Test from './PathFinder/Test'
@@ -31,7 +31,7 @@ function App(){
     />
     <>Optimal way to target from source</>
   </Container>
-    {text === 'Test_V2'?<Test_V2/>:text === 'Test'?<Test/>:<Algo/>}
+    {text === 'Test_V2'?<Test_V2></Test_V2>:text === 'Test'?<Test/>:<Algo/>}
     </>
   )
 }

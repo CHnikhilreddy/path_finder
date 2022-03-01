@@ -6,7 +6,7 @@ function Test() {
   const running = useRef()
   running.current = false
   const [starting_position,setStarting_position] = useState([8,28])
-  const [target_position,setTarget_position] = useState([[9,7],[2,2]])
+  const target_position = [[9,7],[2,2]]
   const [change_position,setChange_position] = useState('wall')
   const [numRows,setNumRows] = useState(30)
   const numRowsRefs = useRef()
