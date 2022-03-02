@@ -74,7 +74,7 @@ function Test_V2() {
             return returned_object.new_grid
         }
         )
-        setTimeout(() => { startBFS(new_arr, false) }, 10)
+        setTimeout(() => { startBFS(new_arr, false) }, 100)
     }
   
   function callbfs(){
