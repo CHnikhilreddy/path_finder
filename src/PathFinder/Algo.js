@@ -1,5 +1,6 @@
 import {useState,useRef} from 'react'
 import {Button, Container, Slider, Typography} from '@material-ui/core'
+import "./algo.css"
 
 const direction = [[1,0],[-1,0],[0,1],[0,-1]]
 
@@ -96,7 +97,7 @@ function Algo() {
         return new_grid
       }
     )
-    setTimeout(()=>{startBFS(new_arr)},10)
+    setTimeout(()=>{startBFS(new_arr)},100)
   }
   return (
     <div>
@@ -155,9 +156,11 @@ function Algo() {
             onClick={()=>{
               changesatefunctin(i,j,change_position)
             }}
+            className = {grid[i][j]}
             style={{
               border:"solid 1px black",
-              backgroundColor:grid[i][j] === "start_position"?"red":grid[i][j] === "Running"?"orange":grid[i][j]==='target'?"green":grid[i][j]==='wall'?'black':grid[i][j]==='path'?'blue':undefined}}>
+              // backgroundColor:grid[i][j] === "start_position"?"red":grid[i][j] === "Running"?"orange":grid[i][j]==='target'?"green":grid[i][j]==='wall'?'black':grid[i][j]==='path'?'blue':undefined
+            }}>
               </div>)
       )))}
       </div>

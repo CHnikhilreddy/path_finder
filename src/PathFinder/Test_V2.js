@@ -1,6 +1,7 @@
 import {useState,useRef} from 'react'
 import {Button, Container, Slider, Typography} from '@material-ui/core'
 import { getRandom_v2, getupdatedgrid_v2} from './helperfunctions'
+import "./algo.css"
 
 
 function Test_V2() {
@@ -135,12 +136,14 @@ function Test_V2() {
           row.map((col,j)=> (
             <div
             key={`${i}-${j}`}
+            className = {grid[i][j][0]}
             onClick={()=>{
               changesatefunctin(i,j,change_position)
             }}
             style={{
               border:"solid 1px black",
-              backgroundColor:grid[i][j][0] === "start_position"?"red":grid[i][j][0] === "Running"?"orange":grid[i][j][0]==='target'?"green":grid[i][j][0]==='wall'?'black':grid[i][j][0]==='path'?'blue':grid[i][j][0]==='exposed_target'?'yellow':undefined}}>
+              // backgroundColor:grid[i][j][0] === "start_position"?"red":grid[i][j][0] === "Running"?"orange":grid[i][j][0]==='target'?"green":grid[i][j][0]==='wall'?'black':grid[i][j][0]==='path'?'blue':grid[i][j][0]==='exposed_target'?'yellow':undefined
+            }}>
               </div>)
       )))}
       </div>

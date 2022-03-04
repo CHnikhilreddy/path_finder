@@ -1,0 +1,57 @@
+.gridclass{
+    background-color: aquamarine;
+}
+
+.start_position{
+    background-color: red;
+}
+.Running{
+    background-color: orange;
+    animation: Running_animation 2s forwards;
+}
+.target{
+    background-color: green;
+}
+.wall{
+   background-color: black;
+}
+.path{
+   background-color: blue;
+   animation: path_animation 2s forwards;
+}
+.exposed_target{
+    background-color: yellow;
+}
+
+@keyframes path_animation {
+    0%{
+        transform: scale(0.3);
+        background-color: aqua;
+        border-radius: 100%;
+    }
+    25%{
+        background-color: aquamarine;
+    }
+    50%{
+        background-color: turquoise;
+    }
+    100%{
+        background-color: blue;
+    }
+}
+@keyframes Running_animation {
+    0%{
+        transform: scale(0.3);
+        background-color: rgb(123, 255, 0);
+        border-radius: 100%;
+    }
+    25%{
+        background-color: rgb(119, 180, 21);
+    }
+    50%{
+        background-color: rgb(174, 190, 28);
+    }
+    100%{
+        background-color: orange;
+    }
+}
